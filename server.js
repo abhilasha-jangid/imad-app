@@ -3,7 +3,19 @@ var morgan = require('morgan');
 var path = require('path');
 
 var app = express();
-app.use(morgan('combined'));
+app.use(morgan('dev'));
+
+app.get('/Article_one', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'Article_one.html'));
+});
+
+app.get('/Article_two', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'Article_two.html'));
+});
+
+app.get('/Article_three', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'Article_three.html'));
+});
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
@@ -15,6 +27,10 @@ app.get('/ui/style.css', function (req, res) {
 
 app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
+});
+
+app.get('/ui/main.js', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'main.js'));
 });
 
 

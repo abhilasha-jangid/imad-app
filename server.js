@@ -186,8 +186,8 @@ app.get('/ui/main.js', function (req, res) {
 
 app.get('/articles/:articleName' , function(req ,res)
 {
-// select * from article where title = 'article-one'
- pool.query("select * from article where title = '" + req.params.articleName + "'" ,function(err,result){
+// select * from article where title = ''; delete where a = 'asfe'
+ pool.query("select * from article where title = $1" , [req.params.articleName]  ,function(err,result){
      if(err){
          res.status(500).send(err.toString());
      }else{

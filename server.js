@@ -184,7 +184,7 @@ function createTemplate(data) {
  return htmltemplate;
 }
 
-app.get('/article/:articleName' , function(req ,res)
+app.get('/articles/:articleName' , function(req ,res)
 {
 
  pool.query("select * from article where title =" + req.param.articleName ,function(err,result){

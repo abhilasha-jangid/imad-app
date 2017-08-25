@@ -162,7 +162,7 @@ app.get('/counter' , function (req , res)
  res.send(counter.toString());
 });
 
-var names = []
+var names = [];
 
 app.get('/submitName' , function(req,res)
 {

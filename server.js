@@ -96,42 +96,6 @@ var articles =
 
 };
 
-function createTemplate(data) {
- var title = data.title;
- var date = data.date;
- var heading = data.heading;
- var content = data.content;
-
- var htmltemplate = `
- <html>
- <head>
- <title>
- ${title}
- </title>
- <meta name="viewport" content="width=device-width, initial-scale=1"/>
- <link href="/ui/style.css" rel="stylesheet" />
- </head>
- <body>
- <div class="container">
- <div>
- <a href="/">Home</a>
- </div>
- <hr/>
- <h3>
- ${heading}
- </h3>
- <div>
- ${date}
- </div>
- <div>
- ${content}
- </div>
- </div>
- </body>
- </html>
- `;
- return htmltemplate;
-}
 
 var pool = new Pool(config);
 app.get('/test-db',function(req,res){
@@ -182,6 +146,44 @@ app.get('/ui/madi.png', function (req, res) {
 app.get('/ui/main.js', function (req, res) {
  res.sendFile(path.join(__dirname, 'ui', 'main.js'));
 });
+
+function createTemplate(data) {
+ var title = data.title;
+ var date = data.date;
+ var heading = data.heading;
+ var content = data.content;
+
+ var htmltemplate = `
+ <html>
+ <head>
+ <title>
+ ${title}
+ </title>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <link href="/ui/style.css" rel="stylesheet" />
+ </head>
+ <body>
+ <div class="container">
+ <div>
+ <a href="/">Home</a>
+ </div>
+ <hr/>
+ <h3>
+ ${heading}
+ </h3>
+ <div>
+ ${date}
+ </div>
+ <div>
+ ${content}
+ </div>
+ </div>
+ </body>
+ </html>
+ `;
+ return htmltemplate;
+}
+
 app.get('/:articleName' , function(req ,res)
 {
  var article_name = req.params.articleName;

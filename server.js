@@ -4,6 +4,12 @@ var path = require('path');
 var Pool = require('pg').Pool;
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+app.use(session({
+    secret : "SomeRandomString",
+    cookie : { maxAge : 1000*60*60*24*30 }
+}));
+
 
 var config ={
     user: 'abhilashajangid786',
@@ -103,6 +109,58 @@ app.post('/create-user',function(req,res){
      }
     });
 });
+app.post('/login' , function (req,res)
+{
+   var mobile = req.body.username;
+   var password = req.body.password;
+   pool.query('SELECT * FROM "user" WHERE username = $1 ' , [username] , function (err ,result)
+   {
+      if(err)
+      {
+          res.status(500).send(submit_err.toString());
+      }
+      else
+      {
+          if(result.rows.length === 0)
+          {
+              res.status(403).send('No users Found');
+          }
+          else
+          {
+              var dbString = result.rows[0].password;
+              var salt = dbString.split('$')[2];
+              var hashedPassword = hash(password,salt);
+              if(hashedPassword === dbString)
+              {
+                  req.session.auth = { userId : result.rows[0].user_id }
+                  res.send('LOGIN SUCCESS');
+              }
+              else
+              {
+                  res.status(403).send('No users Found');
+              }
+          }
+      }
+   });
+});
+
+app.get('/check-login' , function(req , res)
+{
+    if(req.session && req.session.auth && req.session.auth.userId )
+    {
+        res.send('You are logged in');
+    }
+    else
+    {
+        res.status(404).send('You are logged Out');
+    }
+});
+
+app.get('/logout' , function(req , res)
+{
+    delete req.session.auth;
+    res.send('You are logout');
+});
 
 var counter = 0;
 app.get('/counter' , function (req , res)
@@ -122,7 +180,7 @@ app.get('/submitName' , function(req,res)
              if(err){
                    res.status(500).send(err.toString());
              }else{
-                 res.send(JSON.stringify(result.rows))
+                 res.send(JSON.stringify(result.rows));
              }
         });
      }

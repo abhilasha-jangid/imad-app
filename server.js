@@ -84,6 +84,20 @@ var names = [];
 app.get('/submitName' , function(req,res)
 {
  var name = req.query.name;
+  pool.query("insert into names (name) values ($1)" , [req.params.name] ,function(err){
+     if(err){
+         res.status(500).send(err.toString());
+     }else{
+        pool.query("select  name from names",function(err,result){
+             if(err){
+                   res.status(500).send(err.toString());
+             }else{
+                 res.send(JSON.stringify(result.rows))
+             }
+        });
+     }
+ });
+ 
  names.push(name);
  res.send(JSON.stringify(names));
 });

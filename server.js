@@ -72,14 +72,23 @@ app.get('/', function (req, res) {
  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
+
+fuction hash (input,salt){
+    //how do we create a hash?
+    var hashed = crypto.pbkdf2Sync(input,salt,10000,512,'sha512');
+    return hashed.toString('hax');
+}
+app.get('/hash/:input',fuction(req,res){
+    var hashedString = hash(req.params.input,'this-is-same-input-string');
+    res.send(hashedString);
+})
+
 var counter = 0;
 app.get('/counter' , function (req , res)
 {
  counter = counter + 1;
  res.send(counter.toString());
 });
-
-var names = [];
 
 app.get('/submitName' , function(req,res)
 {

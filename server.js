@@ -84,7 +84,7 @@ var names = [];
 app.get('/submitName' , function(req,res)
 {
  var name = req.query.name;
-  pool.query("insert into names (name) values ($1)" , [req.params.name] ,function(err){
+  pool.query("insert into names (name) values ($1)" , [name] ,function(err){
      if(err){
          res.status(500).send(err.toString());
      }else{

@@ -73,15 +73,16 @@ app.get('/', function (req, res) {
 });
 
 
-fuction hash (input,salt){
+function hash (input,salt){
     //how do we create a hash?
     var hashed = crypto.pbkdf2Sync(input,salt,10000,512,'sha512');
-    return hashed.toString('hax');
+    return hashed.toString('hex');
 }
-app.get('/hash/:input',fuction(req,res){
+app.get('/hash/:input',function(req,res)
+{
     var hashedString = hash(req.params.input,'this-is-same-input-string');
     res.send(hashedString);
-})
+});
 
 var counter = 0;
 app.get('/counter' , function (req , res)

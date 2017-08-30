@@ -5,10 +5,7 @@ var Pool = require('pg').Pool;
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-app.use(session({
-    secret : "SomeRandomString",
-    cookie : { maxAge : 1000*60*60*24*30 }
-}));
+
 
 
 var config ={
@@ -21,6 +18,10 @@ var config ={
 var app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(session({
+    secret : "SomeRandomString",
+    cookie : { maxAge : 1000*60*60*24*30 }
+}));
 
 
 function createTemplate(data) {
